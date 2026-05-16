@@ -67,6 +67,7 @@
   .nav-item-icon.live { background: rgba(61,180,100,0.2); }
   .nav-item-icon.compare { background: rgba(100,130,220,0.2); }
   .nav-item-icon.cal { background: rgba(184,134,42,0.15); }
+  .nav-item-icon.log { background: rgba(42,122,139,0.15); }
   .nav-item-text { flex: 1; }
   .nav-item-title { display: block; font-weight: 500; font-size: 13px; }
   .nav-item-sub { display: block; font-size: 11px; color: rgba(255,255,255,0.35); font-family: var(--font-mono); margin-top: 1px; }
@@ -89,14 +90,15 @@
 
   /* ── LIVE SITES BANNER ── */
   .live-banner { background: var(--navy-mid); border-bottom: 1px solid rgba(184,134,42,0.2); padding: 0 2rem; }
-  .live-banner-inner { max-width: 1100px; margin: 0 auto; display: grid; grid-template-columns: 1fr 1fr; gap: 0; }
+  .live-banner-inner { max-width: 1100px; margin: 0 auto; display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 0; }
   .live-site-link { display: flex; align-items: center; gap: 16px; padding: 22px 28px; text-decoration: none; color: white; transition: background 0.18s ease; position: relative; }
-  .live-site-link:first-child { border-right: 1px solid rgba(255,255,255,0.06); }
+  .live-site-link:not(:last-child) { border-right: 1px solid rgba(255,255,255,0.06); }
   .live-site-link:hover { background: rgba(255,255,255,0.04); }
   .live-site-link:hover .live-link-arrow { transform: translateX(4px); }
   .live-badge { display: inline-flex; align-items: center; gap: 5px; font-family: var(--font-mono); font-size: 9px; letter-spacing: 0.16em; text-transform: uppercase; padding: 3px 8px; border-radius: 20px; margin-bottom: 6px; flex-shrink: 0; align-self: flex-start; margin-top: 3px; }
   .live-badge.green { background: rgba(61,180,100,0.15); color: #3daa5a; border: 1px solid rgba(61,180,100,0.25); }
   .live-badge.blue { background: rgba(100,130,220,0.15); color: #8aa4e8; border: 1px solid rgba(100,130,220,0.25); }
+  .live-badge.gold { background: rgba(184,134,42,0.15); color: var(--gold-light); border: 1px solid rgba(184,134,42,0.3); }
   .live-badge .pip { width: 5px; height: 5px; border-radius: 50%; background: currentColor; animation: pulse 2s ease-in-out infinite; }
   .live-site-info { flex: 1; }
   .live-site-title { font-family: var(--font-display); font-size: 1.05rem; font-weight: 600; color: white; line-height: 1.2; margin-bottom: 4px; }
@@ -128,6 +130,7 @@
   .card-cta { font-family: var(--font-mono); font-size: 11px; letter-spacing: 0.12em; text-transform: uppercase; color: var(--gold); display: flex; align-items: center; gap: 6px; }
   .card-cta.green { color: #3daa5a; }
   .card-cta.blue { color: #4a6ab0; }
+  .card-cta.teal { color: #2a7a8b; }
   .card-cta svg { transition: transform 0.18s ease; }
   .resource-card:hover .card-cta svg { transform: translateX(3px); }
   .card-meta { font-family: var(--font-mono); font-size: 10px; color: var(--text-muted); opacity: 0.6; }
@@ -153,7 +156,7 @@
     .footer-inner { flex-direction: column; text-align: center; }
     .nav-dropdown { right: 1rem; width: calc(100vw - 2rem); }
     .live-banner-inner { grid-template-columns: 1fr; }
-    .live-site-link:first-child { border-right: none; border-bottom: 1px solid rgba(255,255,255,0.06); }
+    .live-site-link:not(:last-child) { border-right: none; border-bottom: 1px solid rgba(255,255,255,0.06); }
     .live-site-link { padding: 18px 20px; }
     .resource-card.featured { flex-direction: column; }
     .resource-card.featured .card-accent { width: auto; height: 4px; }
@@ -252,6 +255,15 @@
         <span class="nav-item-sub">Map &middot; 24 Zones</span>
       </span>
     </a>
+    <a href="./Project-Build-Logs" class="nav-item">
+      <span class="nav-item-icon log">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="rgba(42,122,139,0.9)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/><polyline points="10 9 9 9 8 9"/></svg>
+      </span>
+      <span class="nav-item-text">
+        <span class="nav-item-title">Project Build Logs</span>
+        <span class="nav-item-sub">Sprint Log &middot; Valuation &middot; Phase II</span>
+      </span>
+    </a>
     <div class="nav-divider"></div>
     <div class="nav-section-label">Schedule</div>
     <a href="https://cal.com/agent-jess/project-sync" target="_blank" rel="noopener noreferrer" class="nav-item">
@@ -267,14 +279,14 @@
 </header>
 
 <!-- ── LIVE SITES BANNER (primary CTAs, directly below header) ── -->
-<div class="live-banner" role="region" aria-label="Live sites">
+<div class="live-banner" role="region" aria-label="Quick links">
   <div class="live-banner-inner">
     <a href="https://bnr-power-washing.vercel.app" target="_blank" rel="noopener noreferrer" class="live-site-link" aria-label="View BNR Live Site">
       <div>
         <div class="live-badge green"><span class="pip" aria-hidden="true"></span>Live</div>
       </div>
       <div class="live-site-info">
-        <div class="live-site-title">BNR Power Washing — Live Site</div>
+        <div class="live-site-title">BNR Power Washing &mdash; Live Site</div>
         <div class="live-site-url">bnr-power-washing.vercel.app</div>
       </div>
       <svg class="live-link-arrow" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7 17L17 7M17 7H7M17 7v10"/></svg>
@@ -284,8 +296,18 @@
         <div class="live-badge blue"><span class="pip" aria-hidden="true"></span>Compare</div>
       </div>
       <div class="live-site-info">
-        <div class="live-site-title">BNR vs. Competitors — Side-by-Side</div>
+        <div class="live-site-title">BNR vs. Competitors &mdash; Side-by-Side</div>
         <div class="live-site-url">bnr-comparison.vercel.app</div>
+      </div>
+      <svg class="live-link-arrow" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7 17L17 7M17 7H7M17 7v10"/></svg>
+    </a>
+    <a href="https://cal.com/agent-jess/project-sync" target="_blank" rel="noopener noreferrer" class="live-site-link" aria-label="Schedule Next Project Sync">
+      <div>
+        <div class="live-badge gold"><span class="pip" aria-hidden="true"></span>Schedule</div>
+      </div>
+      <div class="live-site-info">
+        <div class="live-site-title">Schedule Next Sync</div>
+        <div class="live-site-url">cal.com/agent-jess/project-sync</div>
       </div>
       <svg class="live-link-arrow" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7 17L17 7M17 7H7M17 7v10"/></svg>
     </a>
@@ -297,7 +319,7 @@
   <h1 id="hero-heading">Everything in one place,<br><em>built to close.</em></h1>
   <p class="hero-sub">All deliverables, research, and proposals &mdash; organized so you can review, share, and decide.</p>
   <div class="hero-meta">
-    <div class="hero-stat"><span>4</span>Deliverables</div>
+    <div class="hero-stat"><span>5</span>Deliverables</div>
     <div class="divider-dot"></div>
     <div class="hero-stat"><span>32</span>SEO Baseline</div>
     <div class="divider-dot"></div>
@@ -314,7 +336,7 @@
       <div class="card-accent green"></div>
       <div class="card-body">
         <div class="card-tag">The Actual Site &middot; Live on Vercel</div>
-        <h2 class="card-title">BNR Power Washing — Live Site</h2>
+        <h2 class="card-title">BNR Power Washing &mdash; Live Site</h2>
         <p class="card-desc">The real, deployed B&amp;R Exterior Services website. View it live, share it with the team, and see exactly what customers see when they find you online.</p>
         <div class="card-footer">
           <span class="card-cta green">Open Live Site <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7 17L17 7M17 7H7M17 7v10"/></svg></span>
@@ -326,8 +348,8 @@
       <div class="card-accent blue"></div>
       <div class="card-body">
         <div class="card-tag">Competitor Analysis &middot; Side-by-Side</div>
-        <h2 class="card-title">BNR vs. Competitors — Comparison Site</h2>
-        <p class="card-desc">A dedicated comparison site showing how B&amp;R stacks up against local competitors — design, SEO, services, and positioning all benchmarked side-by-side.</p>
+        <h2 class="card-title">BNR vs. Competitors &mdash; Comparison Site</h2>
+        <p class="card-desc">A dedicated comparison site showing how B&amp;R stacks up against local competitors &mdash; design, SEO, services, and positioning all benchmarked side-by-side.</p>
         <div class="card-footer">
           <span class="card-cta blue">Open Comparison <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7 17L17 7M17 7H7M17 7v10"/></svg></span>
           <span class="card-meta">bnr-comparison.vercel.app</span>
@@ -392,6 +414,18 @@
         <div class="card-footer">
           <span class="card-cta">Explore Map <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M12 5l7 7-7 7"/></svg></span>
           <span class="card-meta">24 zones &middot; Tier A&ndash;D</span>
+        </div>
+      </div>
+    </a>
+    <a href="./Project-Build-Logs" class="resource-card" role="listitem">
+      <div class="card-accent teal"></div>
+      <div class="card-body">
+        <div class="card-tag">Sprint Log &middot; Valuation &middot; Phase II</div>
+        <h2 class="card-title">Project Build Logs</h2>
+        <p class="card-desc">Complete project record &mdash; sprint timeline, technical decisions, independent build valuation ($8k&ndash;$32k market rate), and the full Phase II growth proposal.</p>
+        <div class="card-footer">
+          <span class="card-cta teal">View Logs <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M12 5l7 7-7 7"/></svg></span>
+          <span class="card-meta">13 days &middot; 20+ commits</span>
         </div>
       </div>
     </a>
