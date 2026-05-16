@@ -1,3 +1,7 @@
 # B&R Redesign 2026
 
-This file contains the full raw source export of the B&R Power Washing redesign project (2026). See the rendered view at redesign-raw.html.
+This is the full raw source export of the B&R Power Washing website redesign (2026).
+View the rendered static page at: [redesign-raw.html](./redesign-raw.html)
+
+Full file content is available at:
+https://raw.githubusercontent.com/GenJess/BNR_Project_Hub/main/B-R-Redesign-2026.md

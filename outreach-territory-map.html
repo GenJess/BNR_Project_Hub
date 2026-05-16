@@ -1,0 +1,304 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>BNR Outreach Territory Map</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300..700&display=swap" rel="stylesheet">
+<link href="https://api.mapbox.com/mapbox-gl-js/v3.3.0/mapbox-gl.css" rel="stylesheet">
+<script src="https://api.mapbox.com/mapbox-gl-js/v3.3.0/mapbox-gl.js"></script>
+<style>
+:root {
+  --text-xs: clamp(0.75rem, 0.7rem + 0.25vw, 0.875rem);
+  --text-sm: clamp(0.875rem, 0.8rem + 0.35vw, 1rem);
+  --text-base: clamp(1rem, 0.95rem + 0.25vw, 1.125rem);
+  --text-lg: clamp(1.125rem, 1rem + 0.75vw, 1.5rem);
+  --text-xl: clamp(1.5rem, 1.2rem + 1.25vw, 2.25rem);
+  --space-1:.25rem;--space-2:.5rem;--space-3:.75rem;--space-4:1rem;
+  --space-5:1.25rem;--space-6:1.5rem;--space-8:2rem;
+  --radius-sm:.375rem;--radius-md:.5rem;--radius-lg:.75rem;--radius-xl:1rem;--radius-full:9999px;
+  --transition-interactive: 180ms cubic-bezier(0.16, 1, 0.3, 1);
+  --font-body: 'Inter', system-ui, sans-serif;
+}
+[data-theme="dark"] {
+  --color-bg:#0f1117;--color-surface:#161820;--color-surface-2:#1c1f2b;
+  --color-surface-offset:#1a1d28;--color-border:#2a2e3e;--color-divider:#232737;
+  --color-text:#e2e4ef;--color-text-muted:#8b90a8;--color-text-faint:#4a4f68;
+  --color-primary:#4ade80;--color-primary-hover:#22c55e;--color-primary-active:#16a34a;
+  --color-primary-highlight:rgba(74,222,128,0.12);
+  --color-gold:#fbbf24;--color-orange:#f97316;--color-error:#f87171;
+  --shadow-sm:0 1px 2px rgba(0,0,0,.3);--shadow-md:0 4px 12px rgba(0,0,0,.4);--shadow-lg:0 12px 32px rgba(0,0,0,.5);
+}
+[data-theme="light"] {
+  --color-bg:#f4f5f0;--color-surface:#fafaf7;--color-surface-2:#ffffff;
+  --color-surface-offset:#eeefe9;--color-border:#ddddd5;--color-divider:#e5e5de;
+  --color-text:#1a1c26;--color-text-muted:#6b6f84;--color-text-faint:#a8aab8;
+  --color-primary:#16a34a;--color-primary-hover:#15803d;--color-primary-active:#166534;
+  --color-primary-highlight:rgba(22,163,74,0.1);
+  --color-gold:#d97706;--color-orange:#ea580c;--color-error:#dc2626;
+  --shadow-sm:0 1px 2px rgba(0,0,0,.06);--shadow-md:0 4px 12px rgba(0,0,0,.08);--shadow-lg:0 12px 32px rgba(0,0,0,.12);
+}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html{-webkit-font-smoothing:antialiased;text-rendering:optimizeLegibility}
+body{font-family:var(--font-body);font-size:var(--text-sm);color:var(--color-text);background:var(--color-bg);height:100dvh;display:flex;flex-direction:column;overflow:hidden}
+button{cursor:pointer;background:none;border:none;font:inherit;color:inherit}
+a,button,[role="button"]{transition:color var(--transition-interactive),background var(--transition-interactive),box-shadow var(--transition-interactive)}
+header{display:flex;align-items:center;justify-content:space-between;padding:var(--space-3) var(--space-6);background:var(--color-surface);border-bottom:1px solid var(--color-border);z-index:10;flex-shrink:0}
+.logo{display:flex;align-items:center;gap:var(--space-2)}
+.logo svg{color:var(--color-primary)}
+.logo-text{font-size:var(--text-sm);font-weight:700;letter-spacing:-.02em}
+.logo-sub{font-size:var(--text-xs);color:var(--color-text-muted);font-weight:400}
+.header-right{display:flex;align-items:center;gap:var(--space-3)}
+.back-link{font-size:var(--text-xs);color:var(--color-text-muted);text-decoration:none;letter-spacing:.05em;display:flex;align-items:center;gap:4px;padding:6px 10px;border-radius:var(--radius-md);border:1px solid var(--color-border)}
+.back-link:hover{color:var(--color-text);border-color:var(--color-text-muted)}
+.theme-btn{width:36px;height:36px;border-radius:var(--radius-md);display:flex;align-items:center;justify-content:center;color:var(--color-text-muted);background:var(--color-surface-offset)}
+.theme-btn:hover{color:var(--color-text);background:var(--color-surface-2)}
+.score-legend{display:flex;gap:var(--space-2);align-items:center}
+.legend-item{display:flex;align-items:center;gap:var(--space-1);font-size:var(--text-xs);color:var(--color-text-muted)}
+.legend-dot{width:10px;height:10px;border-radius:var(--radius-full)}
+.app-body{display:flex;flex:1;overflow:hidden}
+.sidebar{width:320px;flex-shrink:0;background:var(--color-surface);border-right:1px solid var(--color-border);overflow-y:auto;display:flex;flex-direction:column}
+#map{flex:1;position:relative}
+.sidebar-header{padding:var(--space-4) var(--space-5) var(--space-3);border-bottom:1px solid var(--color-divider)}
+.sidebar-title{font-size:var(--text-base);font-weight:600;margin-bottom:var(--space-1)}
+.sidebar-desc{font-size:var(--text-xs);color:var(--color-text-muted);line-height:1.5}
+.filters{padding:var(--space-4) var(--space-5);border-bottom:1px solid var(--color-divider);display:flex;flex-direction:column;gap:var(--space-3)}
+.filter-label{font-size:var(--text-xs);color:var(--color-text-muted);font-weight:500;text-transform:uppercase;letter-spacing:.05em;margin-bottom:var(--space-1)}
+.filter-row{display:flex;gap:var(--space-2);flex-wrap:wrap}
+.filter-chip{padding:var(--space-1) var(--space-3);border-radius:var(--radius-full);font-size:var(--text-xs);font-weight:500;background:var(--color-surface-offset);color:var(--color-text-muted);border:1px solid var(--color-border);cursor:pointer;transition:all var(--transition-interactive)}
+.filter-chip:hover,.filter-chip.active{background:var(--color-primary-highlight);color:var(--color-primary);border-color:var(--color-primary)}
+.zone-list{flex:1;overflow-y:auto}
+.zone-section-title{padding:var(--space-3) var(--space-5) var(--space-1);font-size:var(--text-xs);font-weight:600;text-transform:uppercase;letter-spacing:.06em;color:var(--color-text-faint)}
+.zone-card{padding:var(--space-3) var(--space-5);cursor:pointer;border-bottom:1px solid rgba(255,255,255,0.04);display:flex;align-items:flex-start;gap:var(--space-3);transition:background var(--transition-interactive)}
+.zone-card:hover{background:var(--color-surface-offset)}
+.zone-card.selected{background:var(--color-primary-highlight);border-left:2px solid var(--color-primary)}
+.zone-score-badge{width:36px;height:36px;border-radius:var(--radius-md);display:flex;align-items:center;justify-content:center;font-size:var(--text-xs);font-weight:700;flex-shrink:0}
+.score-a{background:rgba(74,222,128,.15);color:#4ade80}
+.score-b{background:rgba(251,191,36,.15);color:#fbbf24}
+.score-c{background:rgba(249,115,22,.15);color:#f97316}
+.score-d{background:rgba(248,113,113,.15);color:#f87171}
+.zone-info{flex:1;min-width:0}
+.zone-name{font-size:var(--text-sm);font-weight:600;margin-bottom:2px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.zone-meta{font-size:var(--text-xs);color:var(--color-text-muted);display:flex;gap:var(--space-2);flex-wrap:wrap}
+.priority-bar{margin-top:var(--space-1);height:3px;border-radius:var(--radius-full);background:var(--color-surface-offset)}
+.priority-fill{height:100%;border-radius:var(--radius-full)}
+.mapboxgl-popup-content{background:var(--color-surface-2)!important;color:var(--color-text)!important;border:1px solid var(--color-border)!important;border-radius:var(--radius-lg)!important;padding:var(--space-4)!important;box-shadow:var(--shadow-lg)!important;min-width:200px;font-family:var(--font-body)}
+.mapboxgl-popup-tip{border-top-color:var(--color-surface-2)!important;border-bottom-color:var(--color-surface-2)!important}
+.popup-zone-name{font-size:var(--text-sm);font-weight:700;margin-bottom:var(--space-2)}
+.popup-stats{display:flex;flex-direction:column;gap:var(--space-1)}
+.popup-stat{display:flex;justify-content:space-between;font-size:var(--text-xs);gap:var(--space-4)}
+.popup-stat-label{color:var(--color-text-muted)}
+.popup-stat-val{font-weight:600}
+.popup-score{margin-top:var(--space-2);padding:var(--space-1) var(--space-2);border-radius:var(--radius-sm);font-size:var(--text-xs);font-weight:700;text-align:center}
+.kpi-row{padding:var(--space-3) var(--space-5);border-bottom:1px solid var(--color-divider);display:grid;grid-template-columns:1fr 1fr;gap:var(--space-2)}
+.kpi{background:var(--color-surface-offset);border-radius:var(--radius-md);padding:var(--space-2) var(--space-3)}
+.kpi-val{font-size:var(--text-base);font-weight:700;color:var(--color-primary)}
+.kpi-label{font-size:var(--text-xs);color:var(--color-text-muted)}
+.map-info-badge{position:absolute;top:var(--space-3);right:var(--space-3);z-index:5;background:var(--color-surface);border:1px solid var(--color-border);border-radius:var(--radius-md);padding:var(--space-2) var(--space-3);font-size:var(--text-xs);color:var(--color-text-muted);box-shadow:var(--shadow-sm)}
+@media(max-width:768px){
+  .sidebar{width:100%;max-height:45vh;border-right:none;border-top:1px solid var(--color-border);order:2}
+  .app-body{flex-direction:column}
+  #map{flex:1;min-height:55vw;order:1}
+  .score-legend{display:none}
+}
+</style>
+</head>
+<body>
+<header>
+  <div class="logo">
+    <svg width="28" height="28" viewBox="0 0 28 28" fill="none" aria-label="BNR logo">
+      <rect width="28" height="28" rx="6" fill="currentColor" opacity=".12"/>
+      <path d="M7 21 L7 7 L14 7 Q18 7 18 11 Q18 13.5 15.5 14 Q19 14.5 19 18 Q19 21 14.5 21 Z" stroke="currentColor" stroke-width="2" stroke-linejoin="round" fill="none"/>
+      <circle cx="21" cy="9" r="2.5" fill="currentColor"/>
+    </svg>
+    <div>
+      <div class="logo-text">BNR Outreach Map</div>
+      <div class="logo-sub">Conroe &middot; Montgomery County, TX</div>
+    </div>
+  </div>
+  <div class="header-right">
+    <div class="score-legend">
+      <div class="legend-item"><div class="legend-dot" style="background:#4ade80"></div>Tier A</div>
+      <div class="legend-item"><div class="legend-dot" style="background:#fbbf24"></div>Tier B</div>
+      <div class="legend-item"><div class="legend-dot" style="background:#f97316"></div>Tier C</div>
+      <div class="legend-item"><div class="legend-dot" style="background:#f87171"></div>Tier D</div>
+    </div>
+    <a href="./index.html" class="back-link">
+      <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M19 12H5M12 5l-7 7 7 7"/></svg>
+      Portal
+    </a>
+    <button class="theme-btn" data-theme-toggle aria-label="Toggle theme">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
+    </button>
+  </div>
+</header>
+<div class="app-body">
+  <aside class="sidebar">
+    <div class="sidebar-header">
+      <div class="sidebar-title">Prospect Zones</div>
+      <p class="sidebar-desc">Scored by median household income + home age. Older high-value homes = highest algae &amp; mildew susceptibility.</p>
+    </div>
+    <div class="kpi-row">
+      <div class="kpi"><div class="kpi-val" id="kpi-zones">24</div><div class="kpi-label">Zones Scored</div></div>
+      <div class="kpi"><div class="kpi-val" id="kpi-a">8</div><div class="kpi-label">Tier A Zones</div></div>
+    </div>
+    <div class="filters">
+      <div>
+        <div class="filter-label">Income Filter</div>
+        <div class="filter-row" id="income-filter">
+          <button class="filter-chip active" data-income="all">All</button>
+          <button class="filter-chip" data-income="high">$100k+</button>
+          <button class="filter-chip" data-income="mid">$65–100k</button>
+          <button class="filter-chip" data-income="low">&lt;$65k</button>
+        </div>
+      </div>
+      <div>
+        <div class="filter-label">Home Age</div>
+        <div class="filter-row" id="age-filter">
+          <button class="filter-chip active" data-age="all">All</button>
+          <button class="filter-chip" data-age="old">Pre-1995</button>
+          <button class="filter-chip" data-age="mid">1995–2010</button>
+          <button class="filter-chip" data-age="new">Post-2010</button>
+        </div>
+      </div>
+    </div>
+    <div class="zone-section-title">All Zones — Ranked by Score</div>
+    <div class="zone-list" id="zone-list"></div>
+  </aside>
+  <div id="map">
+    <div class="map-info-badge">Click any zone for details</div>
+  </div>
+</div>
+<script>
+(function(){
+  const btn = document.querySelector('[data-theme-toggle]');
+  const root = document.documentElement;
+  let theme = 'dark';
+  root.setAttribute('data-theme', theme);
+  btn.addEventListener('click', () => {
+    theme = theme === 'dark' ? 'light' : 'dark';
+    root.setAttribute('data-theme', theme);
+    btn.innerHTML = theme === 'dark'
+      ? '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>'
+      : '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="5"/><path d="M12 1v2M12 21v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M1 12h2M21 12h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42"/></svg>';
+    updateMapStyle();
+  });
+  const zones = [
+    {id:1, name:"Teas Crossing / Old Conroe",lat:30.3218,lng:-95.4571,income:118000,medianYear:1988,homeType:"Single-Family",homes:3400,tier:"A",score:93},
+    {id:2, name:"River Plantation",lat:30.3512,lng:-95.4908,income:134000,medianYear:1985,homeType:"Single-Family",homes:1800,tier:"A",score:95},
+    {id:3, name:"Panorama Village",lat:30.3690,lng:-95.5102,income:127000,medianYear:1979,homeType:"Single-Family",homes:900,tier:"A",score:97},
+    {id:4, name:"April Sound",lat:30.4050,lng:-95.5618,income:142000,medianYear:1983,homeType:"Single-Family",homes:2200,tier:"A",score:96},
+    {id:5, name:"Bentwater / Lake Conroe Shores",lat:30.4280,lng:-95.6012,income:185000,medianYear:1992,homeType:"Single-Family",homes:2800,tier:"A",score:98},
+    {id:6, name:"Stablewood Farms",lat:30.2985,lng:-95.5243,income:109000,medianYear:1994,homeType:"Single-Family",homes:1200,tier:"A",score:88},
+    {id:7, name:"Longmire / Woodlands Edge",lat:30.1820,lng:-95.5512,income:122000,medianYear:1991,homeType:"Single-Family",homes:3100,tier:"A",score:89},
+    {id:8, name:"Cochran's Crossing (The Woodlands)",lat:30.1605,lng:-95.4952,income:138000,medianYear:1989,homeType:"Single-Family",homes:4200,tier:"A",score:92},
+    {id:9, name:"Montgomery Proper",lat:30.3902,lng:-95.6964,income:87000,medianYear:1978,homeType:"Mixed",homes:1500,tier:"B",score:78},
+    {id:10,name:"Conroe East / I-45 Corridor",lat:30.3112,lng:-95.4224,income:72000,medianYear:1996,homeType:"Single-Family",homes:5100,tier:"B",score:74},
+    {id:11,name:"Cut and Shoot",lat:30.3540,lng:-95.3815,income:68000,medianYear:1982,homeType:"Rural/SF",homes:1100,tier:"B",score:76},
+    {id:12,name:"Willis",lat:30.4275,lng:-95.4767,income:65000,medianYear:1994,homeType:"Single-Family",homes:3200,tier:"B",score:71},
+    {id:13,name:"Spring Valley / FM 1314",lat:30.2645,lng:-95.3501,income:79000,medianYear:2001,homeType:"Single-Family",homes:4400,tier:"B",score:68},
+    {id:14,name:"Shenandoah",lat:30.1815,lng:-95.4518,income:96000,medianYear:1999,homeType:"Single-Family",homes:1900,tier:"B",score:79},
+    {id:15,name:"Porter Heights",lat:30.1195,lng:-95.3245,income:74000,medianYear:1998,homeType:"Single-Family",homes:2700,tier:"B",score:70},
+    {id:16,name:"New Caney / Valley Ranch",lat:30.1562,lng:-95.2718,income:83000,medianYear:2003,homeType:"Single-Family",homes:5800,tier:"B",score:67},
+    {id:17,name:"Conroe Downtown Core",lat:30.3122,lng:-95.4561,income:54000,medianYear:2005,homeType:"Mixed/Rental",homes:3800,tier:"C",score:52},
+    {id:18,name:"Splendora",lat:30.2312,lng:-95.1731,income:58000,medianYear:2006,homeType:"Rural/SF",homes:2100,tier:"C",score:54},
+    {id:19,name:"Pinehurst",lat:30.3648,lng:-95.6441,income:62000,medianYear:2008,homeType:"Single-Family",homes:1700,tier:"C",score:58},
+    {id:20,name:"Patton Village",lat:30.2012,lng:-95.1918,income:48000,medianYear:2007,homeType:"Mobile/Rural",homes:900,tier:"C",score:44},
+    {id:21,name:"Roman Forest",lat:30.1708,lng:-95.1604,income:44000,medianYear:2011,homeType:"Single-Family",homes:1300,tier:"D",score:38},
+    {id:22,name:"Dobbin",lat:30.3815,lng:-95.7812,income:39000,medianYear:2009,homeType:"Rural",homes:450,tier:"D",score:32},
+    {id:23,name:"Coldspring (outskirts)",lat:30.5918,lng:-95.1348,income:41000,medianYear:2014,homeType:"Rural",homes:600,tier:"D",score:28},
+    {id:24,name:"New Waverly",lat:30.5345,lng:-95.4861,income:38000,medianYear:2016,homeType:"Rural/Mobile",homes:520,tier:"D",score:24},
+  ].sort((a,b)=>b.score-a.score);
+  const tierColor={A:'#4ade80',B:'#fbbf24',C:'#f97316',D:'#f87171'};
+  const tierRadius={A:22,B:18,C:14,D:10};
+  function renderZoneList(filtered){
+    const list=document.getElementById('zone-list');
+    list.innerHTML='';
+    let currentTier=null;
+    filtered.forEach(z=>{
+      if(z.tier!==currentTier){
+        currentTier=z.tier;
+        const div=document.createElement('div');
+        div.className='zone-section-title';
+        div.textContent=`Tier ${z.tier} — ${z.tier==='A'?'Prime Prospect':z.tier==='B'?'Good Prospect':z.tier==='C'?'Secondary':'Low Priority'}`;
+        list.appendChild(div);
+      }
+      const card=document.createElement('div');
+      card.className='zone-card';
+      card.dataset.id=z.id;
+      const barColor=tierColor[z.tier];
+      card.innerHTML=`<div class="zone-score-badge score-${z.tier.toLowerCase()}">${z.score}</div><div class="zone-info"><div class="zone-name">${z.name}</div><div class="zone-meta"><span>$${(z.income/1000).toFixed(0)}k</span><span>${z.medianYear}</span><span>${z.homeType}</span></div><div class="priority-bar"><div class="priority-fill" style="width:${z.score}%;background:${barColor}"></div></div></div>`;
+      card.addEventListener('click',()=>selectZone(z));
+      list.appendChild(card);
+    });
+    document.getElementById('kpi-zones').textContent=filtered.length;
+    document.getElementById('kpi-a').textContent=filtered.filter(z=>z.tier==='A').length;
+  }
+  let incomeFilter='all',ageFilter='all';
+  function applyFilters(){
+    return zones.filter(z=>{
+      const inc=incomeFilter==='all'||(incomeFilter==='high'&&z.income>=100000)||(incomeFilter==='mid'&&z.income>=65000&&z.income<100000)||(incomeFilter==='low'&&z.income<65000);
+      const age=ageFilter==='all'||(ageFilter==='old'&&z.medianYear<1995)||(ageFilter==='mid'&&z.medianYear>=1995&&z.medianYear<=2010)||(ageFilter==='new'&&z.medianYear>2010);
+      return inc&&age;
+    });
+  }
+  document.getElementById('income-filter').addEventListener('click',e=>{
+    const chip=e.target.closest('[data-income]');
+    if(!chip)return;
+    document.querySelectorAll('[data-income]').forEach(c=>c.classList.remove('active'));
+    chip.classList.add('active');incomeFilter=chip.dataset.income;refreshFilters();
+  });
+  document.getElementById('age-filter').addEventListener('click',e=>{
+    const chip=e.target.closest('[data-age]');
+    if(!chip)return;
+    document.querySelectorAll('[data-age]').forEach(c=>c.classList.remove('active'));
+    chip.classList.add('active');ageFilter=chip.dataset.age;refreshFilters();
+  });
+  function refreshFilters(){const f=applyFilters();renderZoneList(f);updateMapMarkers(f);}
+  // IMPORTANT: Replace YOUR_MAPBOX_TOKEN below with your actual Mapbox public token
+  mapboxgl.accessToken='YOUR_MAPBOX_TOKEN';
+  let mapStyle='mapbox://styles/mapbox/dark-v11';
+  const map=new mapboxgl.Map({container:'map',style:mapStyle,center:[-95.51,30.32],zoom:9.5,attributionControl:false});
+  map.addControl(new mapboxgl.NavigationControl(),'top-left');
+  map.addControl(new mapboxgl.AttributionControl({compact:true}));
+  function updateMapStyle(){
+    const s=theme==='dark'?'mapbox://styles/mapbox/dark-v11':'mapbox://styles/mapbox/light-v11';
+    map.setStyle(s);
+    map.once('style.load',()=>{updateMapMarkers(applyFilters());});
+  }
+  let markers=[],activePopup=null,selectedId=null;
+  function updateMapMarkers(filtered){
+    markers.forEach(m=>m.remove());markers=[];
+    filtered.forEach(z=>{
+      const el=document.createElement('div');
+      const color=tierColor[z.tier],r=tierRadius[z.tier];
+      el.style.cssText=`width:${r*2}px;height:${r*2}px;background:${color}22;border:2px solid ${color};border-radius:50%;cursor:pointer;display:flex;align-items:center;justify-content:center;color:${color};font-size:11px;font-weight:700;font-family:'Inter',sans-serif;transition:transform 180ms cubic-bezier(.16,1,.3,1);`;
+      if(z.tier==='A')el.style.boxShadow=`0 0 0 4px ${color}22,0 0 16px ${color}33`;
+      el.textContent=z.score;
+      el.addEventListener('mouseenter',()=>{el.style.transform='scale(1.2)';});
+      el.addEventListener('mouseleave',()=>{el.style.transform=selectedId===z.id?'scale(1.15)':'scale(1)';});
+      el.addEventListener('click',()=>selectZone(z));
+      markers.push(new mapboxgl.Marker({element:el}).setLngLat([z.lng,z.lat]).addTo(map));
+    });
+  }
+  function selectZone(z){
+    selectedId=z.id;
+    document.querySelectorAll('.zone-card').forEach(c=>c.classList.toggle('selected',+c.dataset.id===z.id));
+    const card=document.querySelector(`.zone-card[data-id="${z.id}"]`);
+    if(card)card.scrollIntoView({behavior:'smooth',block:'nearest'});
+    map.flyTo({center:[z.lng,z.lat],zoom:12,speed:1.2});
+    if(activePopup)activePopup.remove();
+    const color=tierColor[z.tier];
+    const ageLabel=z.medianYear<1990?'\u26a0 Very High Risk':z.medianYear<2000?'High Risk':z.medianYear<2010?'Moderate Risk':'Lower Risk';
+    activePopup=new mapboxgl.Popup({offset:25,closeButton:true})
+      .setLngLat([z.lng,z.lat])
+      .setHTML(`<div class="popup-zone-name">${z.name}</div><div class="popup-stats"><div class="popup-stat"><span class="popup-stat-label">Median Income</span><span class="popup-stat-val">$${z.income.toLocaleString()}</span></div><div class="popup-stat"><span class="popup-stat-label">Home Built</span><span class="popup-stat-val">${z.medianYear}</span></div><div class="popup-stat"><span class="popup-stat-label">Home Type</span><span class="popup-stat-val">${z.homeType}</span></div><div class="popup-stat"><span class="popup-stat-label">Est. Homes</span><span class="popup-stat-val">${z.homes.toLocaleString()}</span></div><div class="popup-stat"><span class="popup-stat-label">Mildew Risk</span><span class="popup-stat-val" style="color:${color}">${ageLabel}</span></div></div><div class="popup-score" style="background:${color}22;color:${color}">Tier ${z.tier} &middot; Score ${z.score}/100</div>`)
+      .addTo(map);
+  }
+  map.on('load',()=>{renderZoneList(zones);updateMapMarkers(zones);});
+})();
+</script>
+</body>
+</html>
