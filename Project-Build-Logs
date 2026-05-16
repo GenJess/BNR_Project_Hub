@@ -1,0 +1,635 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>B&R Exterior Services — Project Documentation</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400&family=IBM+Plex+Sans:wght@300;400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --navy:#0e1b2e;--navy-mid:#162236;--navy-light:#1e3048;
+  --gold:#b8862a;--gold-light:#d4a445;--gold-pale:#f5edd8;
+  --cream:#f8f4ee;--cream-mid:#f0e9de;--cream-deep:#e6dccf;
+  --text-dark:#0e1b2e;--text-mid:#3a4a5c;--text-muted:#6b7a8d;
+  --divider:rgba(14,27,46,0.1);
+  --shadow-sm:0 2px 8px rgba(14,27,46,0.06);
+  --shadow-md:0 8px 24px rgba(14,27,46,0.08);
+  --shadow-lg:0 20px 48px rgba(14,27,46,0.12);
+  --r:6px;--r-lg:12px;
+  --teal:#2a7a8b;--green:#3d7a4a;--red:#9a3030;
+}
+html{scroll-behavior:smooth}
+body{font-family:'IBM Plex Sans',system-ui,sans-serif;color:var(--text-dark);background:var(--cream);line-height:1.65;font-size:15px;overflow-x:hidden}
+
+/* === HEADER === */
+header{position:sticky;top:0;z-index:100;background:var(--navy);border-bottom:2px solid var(--gold);height:64px;display:flex;align-items:center}
+.header-inner{max-width:1100px;margin:0 auto;width:100%;padding:0 2rem;display:flex;align-items:center;justify-content:space-between}
+.logo{display:flex;align-items:center;gap:10px;text-decoration:none}
+.logo-mark{width:36px;height:36px;background:var(--gold);border-radius:6px;display:flex;align-items:center;justify-content:center;font-family:'Playfair Display',serif;font-weight:700;font-size:14px;color:var(--navy);letter-spacing:0.5px}
+.logo-text{font-family:'IBM Plex Sans',sans-serif;font-weight:500;font-size:14px;color:var(--cream);letter-spacing:0.3px}
+.nav-links{display:flex;gap:8px}
+.nav-links a{font-family:'IBM Plex Mono',monospace;font-size:11px;text-transform:uppercase;letter-spacing:0.15em;color:var(--cream-mid);text-decoration:none;padding:6px 12px;border-radius:var(--r);transition:all .2s}
+.nav-links a:hover,.nav-links a.active{color:var(--gold-light);background:rgba(184,134,42,0.1)}
+
+/* === HERO === */
+.hero{background:var(--navy);padding:64px 2rem 56px;position:relative;overflow:hidden}
+.hero::before{content:'';position:absolute;inset:0;background:radial-gradient(ellipse at 30% 80%,rgba(184,134,42,0.08) 0%,transparent 70%)}
+.hero-inner{max-width:1100px;margin:0 auto;position:relative;z-index:1}
+.hero h1{font-family:'Playfair Display',serif;font-size:clamp(28px,4vw,42px);font-weight:700;color:var(--cream);line-height:1.2;margin-bottom:12px}
+.hero .subtitle{font-size:17px;color:var(--cream-mid);font-weight:300;max-width:700px;line-height:1.6}
+.hero .subtitle strong{color:var(--gold-light);font-weight:500}
+
+/* === DOC NAV === */
+.doc-nav{background:var(--navy-mid);border-bottom:1px solid rgba(255,255,255,0.06);padding:0 2rem}
+.doc-nav-inner{max-width:1100px;margin:0 auto;display:flex;gap:0;overflow-x:auto}
+.doc-nav a{font-family:'IBM Plex Mono',monospace;font-size:11px;text-transform:uppercase;letter-spacing:0.15em;color:var(--cream-deep);text-decoration:none;padding:14px 20px;border-bottom:2px solid transparent;transition:all .2s;white-space:nowrap}
+.doc-nav a:hover{color:var(--gold-light);border-bottom-color:var(--gold)}
+.doc-nav a.active{color:var(--gold-light);border-bottom-color:var(--gold)}
+
+/* === MAIN === */
+main{max-width:1100px;margin:0 auto;padding:48px 2rem 96px}
+
+/* === SECTION LABELS === */
+.section-label{font-family:'IBM Plex Mono',monospace;font-size:10px;text-transform:uppercase;letter-spacing:0.2em;color:var(--gold);margin-bottom:20px;display:flex;align-items:center;gap:12px}
+.section-label::after{content:'';flex:1;height:1px;background:var(--divider)}
+
+/* === DOC SECTIONS === */
+.doc-section{margin-bottom:64px;scroll-margin-top:80px}
+.doc-section h2{font-family:'Playfair Display',serif;font-size:clamp(24px,3vw,32px);font-weight:700;color:var(--text-dark);margin-bottom:8px;line-height:1.25}
+.doc-section .doc-date{font-family:'IBM Plex Mono',monospace;font-size:12px;color:var(--text-muted);margin-bottom:24px}
+.doc-section h3{font-family:'Playfair Display',serif;font-size:20px;font-weight:600;color:var(--text-dark);margin:32px 0 12px;line-height:1.3}
+.doc-section h4{font-family:'IBM Plex Sans',sans-serif;font-size:15px;font-weight:600;color:var(--text-dark);margin:24px 0 8px}
+.doc-section p{color:var(--text-mid);margin-bottom:14px;max-width:760px}
+.doc-section ul,.doc-section ol{color:var(--text-mid);margin:0 0 16px 20px}
+.doc-section li{margin-bottom:6px}
+.doc-section li strong{color:var(--text-dark)}
+
+/* === EXECUTIVE CARD === */
+.exec-card{background:var(--navy);border-radius:var(--r-lg);padding:32px 36px;margin:24px 0 32px;color:var(--cream)}
+.exec-card h3{color:var(--gold-light);margin:0 0 16px;font-size:18px}
+.exec-card p{color:var(--cream-mid);max-width:none}
+.exec-card .big-number{font-family:'Playfair Display',serif;font-size:clamp(32px,5vw,48px);font-weight:700;color:var(--gold-light);margin:8px 0 4px}
+.exec-card .big-label{font-family:'IBM Plex Mono',monospace;font-size:11px;text-transform:uppercase;letter-spacing:0.15em;color:var(--cream-deep)}
+
+/* === TABLES === */
+.data-table{width:100%;border-collapse:collapse;margin:20px 0 28px;font-size:14px;background:#fff;border-radius:var(--r-lg);overflow:hidden;box-shadow:var(--shadow-sm)}
+.data-table thead{background:var(--navy)}
+.data-table th{font-family:'IBM Plex Mono',monospace;font-size:11px;text-transform:uppercase;letter-spacing:0.1em;color:var(--cream-mid);padding:12px 16px;text-align:left;font-weight:500}
+.data-table td{padding:12px 16px;border-bottom:1px solid var(--divider);color:var(--text-mid);vertical-align:top}
+.data-table tr:last-child td{border-bottom:none}
+.data-table .highlight-row{background:var(--gold-pale)}
+.data-table .source-link{font-family:'IBM Plex Mono',monospace;font-size:11px;color:var(--gold);text-decoration:none}
+.data-table .source-link:hover{text-decoration:underline}
+.data-table .money{font-family:'IBM Plex Mono',monospace;font-weight:500;color:var(--text-dark)}
+
+/* === STAT GRID === */
+.stat-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:16px;margin:24px 0 32px}
+.stat-card{background:#fff;border-radius:var(--r-lg);padding:24px;box-shadow:var(--shadow-sm);border-top:3px solid var(--gold)}
+.stat-card .stat-value{font-family:'Playfair Display',serif;font-size:28px;font-weight:700;color:var(--navy);margin-bottom:4px}
+.stat-card .stat-label{font-family:'IBM Plex Mono',monospace;font-size:10px;text-transform:uppercase;letter-spacing:0.15em;color:var(--text-muted)}
+
+/* === TIMELINE === */
+.timeline{position:relative;margin:24px 0 32px;padding-left:28px}
+.timeline::before{content:'';position:absolute;left:8px;top:4px;bottom:4px;width:2px;background:linear-gradient(to bottom,var(--gold),var(--navy))}
+.timeline-item{position:relative;margin-bottom:28px}
+.timeline-item::before{content:'';position:absolute;left:-24px;top:6px;width:12px;height:12px;border-radius:50%;background:var(--gold);border:2px solid var(--cream)}
+.timeline-item.shipped::before{background:var(--green)}
+.timeline-item.blocked::before{background:var(--red)}
+.timeline-item .tl-date{font-family:'IBM Plex Mono',monospace;font-size:11px;text-transform:uppercase;letter-spacing:0.1em;color:var(--gold);margin-bottom:4px}
+.timeline-item .tl-title{font-family:'Playfair Display',serif;font-size:17px;font-weight:600;color:var(--text-dark);margin-bottom:6px}
+.timeline-item .tl-body{color:var(--text-mid);font-size:14px;line-height:1.6}
+.timeline-item .tl-body ul{margin:6px 0 0 16px}
+.timeline-item .tl-body li{margin-bottom:3px}
+.timeline-item .tl-tag{display:inline-block;font-family:'IBM Plex Mono',monospace;font-size:10px;text-transform:uppercase;letter-spacing:0.1em;padding:3px 8px;border-radius:4px;margin-right:6px;margin-top:8px}
+.tl-tag.shipped{background:rgba(61,122,74,0.1);color:var(--green)}
+.tl-tag.milestone{background:rgba(184,134,42,0.12);color:var(--gold)}
+.tl-tag.decision{background:rgba(42,122,139,0.1);color:var(--teal)}
+
+/* === CALLOUT === */
+.callout{border-left:3px solid var(--gold);background:rgba(184,134,42,0.06);padding:16px 20px;border-radius:0 var(--r) var(--r) 0;margin:20px 0 24px}
+.callout p{margin:0;color:var(--text-mid)}
+.callout strong{color:var(--text-dark)}
+.callout.navy{border-left-color:var(--navy);background:rgba(14,27,46,0.04)}
+.callout.teal{border-left-color:var(--teal);background:rgba(42,122,139,0.05)}
+
+/* === DIVIDER === */
+.section-divider{border:none;height:1px;background:var(--divider);margin:64px 0}
+
+/* === FOOTER === */
+footer{background:var(--navy);padding:32px 2rem;border-top:2px solid var(--gold)}
+.footer-inner{max-width:1100px;margin:0 auto;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:12px}
+.footer-brand{font-family:'IBM Plex Mono',monospace;font-size:11px;color:var(--cream-deep);letter-spacing:0.05em}
+.footer-meta{font-family:'IBM Plex Mono',monospace;font-size:11px;color:var(--text-muted)}
+
+/* === RESPONSIVE === */
+@media(max-width:600px){
+  .header-inner{padding:0 1rem}
+  .hero{padding:40px 1rem 36px}
+  .doc-nav{padding:0 1rem}
+  .doc-nav a{padding:12px 14px;font-size:10px}
+  main{padding:32px 1rem 64px}
+  .exec-card{padding:24px 20px}
+  .stat-grid{grid-template-columns:1fr 1fr}
+  .data-table{font-size:13px}
+  .data-table th,.data-table td{padding:10px 12px}
+  .footer-inner{flex-direction:column;text-align:center}
+  .nav-links{display:none}
+}
+</style>
+</head>
+<body>
+
+<!-- HEADER -->
+<header>
+  <div class="header-inner">
+    <a href="index.html" class="logo">
+      <div class="logo-mark">BNR</div>
+      <span class="logo-text">Project Hub</span>
+    </a>
+    <nav class="nav-links">
+      <a href="index.html">Hub</a>
+      <a href="bnr-project-docs.html" class="active">Docs</a>
+    </nav>
+  </div>
+</header>
+
+<!-- HERO -->
+<div class="hero">
+  <div class="hero-inner">
+    <h1>Project Documentation</h1>
+    <p class="subtitle">Complete record of what was built, what it's worth, and where the <strong>growth opportunity</strong> lives. Three documents — one page.</p>
+  </div>
+</div>
+
+<!-- DOC NAV -->
+<div class="doc-nav">
+  <div class="doc-nav-inner">
+    <a href="#valuation" class="active">Valuation Report</a>
+    <a href="#build-log">Build Log</a>
+    <a href="#phase-ii">Phase II Proposal</a>
+  </div>
+</div>
+
+<!-- MAIN -->
+<main>
+
+<!-- ============================================================ -->
+<!-- DOCUMENT 1: PROJECT VALUATION REPORT -->
+<!-- ============================================================ -->
+<section class="doc-section" id="valuation">
+  <div class="section-label">Document 1 of 3</div>
+  <h2>Project Valuation Report</h2>
+  <div class="doc-date">B&R Exterior Services · Website Build · May 2026</div>
+
+  <div class="exec-card">
+    <h3>Executive Summary</h3>
+    <p>Based on independent market benchmarking across 6 industry sources, the delivered B&R website build falls within a <strong>$8,000 – $32,000</strong> market-rate range depending on vendor tier. The deliverable set includes a custom-designed responsive site, AI-powered instant quote tool, dynamic Cloudinary gallery, 6 dedicated service pages, full SEO/AEO infrastructure, and serverless API architecture.</p>
+    <div class="big-number">$8,000 – $32,000</div>
+    <div class="big-label">Market-rate range based on comparable agency work</div>
+  </div>
+
+  <h3>What Was Delivered</h3>
+
+  <div class="stat-grid">
+    <div class="stat-card">
+      <div class="stat-value">183 KB</div>
+      <div class="stat-label">Original Code</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-value">14</div>
+      <div class="stat-label">Production Files</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-value">6</div>
+      <div class="stat-label">Service Pages</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-value">56</div>
+      <div class="stat-label">Gallery Photos</div>
+    </div>
+  </div>
+
+  <h4>Deliverable Inventory</h4>
+  <table class="data-table">
+    <thead><tr><th>File</th><th>Size</th><th>Description</th></tr></thead>
+    <tbody>
+      <tr><td><strong>index.html</strong></td><td class="money">60.7 KB</td><td>Full homepage — hero, services grid, AI quote tool, testimonials, coverage map, booking embed, FAQ, footer</td></tr>
+      <tr><td><strong>styles.css</strong></td><td class="money">83.8 KB</td><td>Complete design system — responsive layout, animations, service page styles, gallery masonry, quote tool UI</td></tr>
+      <tr><td><strong>gallery.html</strong></td><td class="money">70.9 KB</td><td>56-photo masonry gallery with category filters, blur-fade scroll animation, click-to-enlarge, srcset responsive images</td></tr>
+      <tr><td><strong>scripts.js</strong></td><td class="money">16.5 KB</td><td>Sticky nav, mobile menu, reveal-on-scroll, stat counters, AI Quote Tool client logic, photo capture/upload</td></tr>
+      <tr><td><strong>api/quote.js</strong></td><td class="money">6 KB</td><td>Serverless AI endpoint — Gemini Vision analysis, surface detection, sq ft estimate, price range, after-image generation</td></tr>
+      <tr><td><strong>api/gallery.js</strong></td><td class="money">4 KB</td><td>Cloudinary-backed gallery API with static JSON fallback</td></tr>
+      <tr><td><strong>6× service pages</strong></td><td class="money">~30 KB</td><td>House washing, driveway, roof, windows, patio/deck, commercial — each with before/after slider, pricing, FAQ, JSON-LD</td></tr>
+      <tr><td><strong>llms.txt</strong></td><td class="money">8 KB</td><td>AI-readable site context for ChatGPT, Claude, Perplexity, Gemini citation</td></tr>
+      <tr><td><strong>robots.txt + sitemap.xml</strong></td><td class="money">2 KB</td><td>AI-crawler allowlist (GPTBot, ClaudeBot, PerplexityBot, etc.) + full sitemap with service page priority</td></tr>
+      <tr><td><strong>JSON-LD schema</strong></td><td>—</td><td>LocalBusiness, FAQPage, Service, Review, BreadcrumbList structured data across all pages</td></tr>
+      <tr><td><strong>12× before/after JPEGs</strong></td><td class="money">3.5 MB</td><td>AI-generated service imagery (1600×900, JPEG q78) for draggable comparison sliders</td></tr>
+      <tr><td><strong>gallery-images.json</strong></td><td class="money">9 KB</td><td>54-item catalog of real job photos tagged by Houston neighborhood and service category</td></tr>
+    </tbody>
+  </table>
+
+  <h3>Work-Stream Breakdown</h3>
+  <table class="data-table">
+    <thead><tr><th>Work Stream</th><th>Scope</th><th>Est. Hours</th></tr></thead>
+    <tbody>
+      <tr><td><strong>Brand System & Design</strong></td><td>Color palette, typography scale, logo treatment, component patterns, responsive grid system</td><td class="money">6–8 hrs</td></tr>
+      <tr><td><strong>Homepage Build</strong></td><td>Hero, services grid, testimonials, coverage map, FAQ, booking embed, trust architecture</td><td class="money">8–12 hrs</td></tr>
+      <tr><td><strong>6 Service Pages</strong></td><td>800–1,200 words each, before/after sliders, Houston pricing, JSON-LD schema, service-specific FAQs</td><td class="money">8–10 hrs</td></tr>
+      <tr><td><strong>AI Quote Tool</strong></td><td>Photo capture → Gemini Vision → surface/sqft/stain analysis → price range → after-image generation → lead capture</td><td class="money">10–14 hrs</td></tr>
+      <tr><td><strong>Gallery System</strong></td><td>Cloudinary integration, masonry layout, 7-category filters, blur-fade animation, click-to-enlarge, responsive srcset</td><td class="money">6–8 hrs</td></tr>
+      <tr><td><strong>SEO / AEO Infrastructure</strong></td><td>JSON-LD (6 schema types), llms.txt, AI-crawler robots.txt, sitemap, meta tags, semantic HTML</td><td class="money">4–6 hrs</td></tr>
+      <tr><td><strong>Serverless API</strong></td><td>Vercel functions for quote + gallery + post-call webhook + cron cleanup</td><td class="money">4–6 hrs</td></tr>
+      <tr><td><strong>DevOps & QA</strong></td><td>GitHub CI, Vercel deploy pipeline, mobile QA (375/768/1440), source-of-truth reconciliation, multi-repo sync</td><td class="money">4–6 hrs</td></tr>
+    </tbody>
+    <tfoot>
+      <tr style="background:var(--gold-pale)"><td colspan="2"><strong>Total Estimated Hours</strong></td><td class="money"><strong>50–70 hrs</strong></td></tr>
+    </tfoot>
+  </table>
+
+  <h3>Market Rate Benchmarks</h3>
+  <p>The following rates are sourced from independent industry surveys and published pricing pages, verified May 2026.</p>
+
+  <h4>Custom Website Redesign (Small Business)</h4>
+  <table class="data-table">
+    <thead><tr><th>Vendor Tier</th><th>Price Range</th><th>Source</th></tr></thead>
+    <tbody>
+      <tr><td>Freelancer</td><td class="money">$1,500 – $8,000</td><td><a class="source-link" href="https://www.overthefold.com/blog/how-much-does-a-website-redesign-cost-for-a-small-business-2026-guide" target="_blank" rel="noopener noreferrer">Over the Fold, Apr 2026</a></td></tr>
+      <tr><td>Boutique Agency</td><td class="money">$5,000 – $25,000</td><td><a class="source-link" href="https://www.letsgroto.com/blog/website-redesign-cost" target="_blank" rel="noopener noreferrer">Groto, Jun 2025</a></td></tr>
+      <tr><td>Full-Service Agency</td><td class="money">$8,000 – $50,000+</td><td><a class="source-link" href="https://www.fiercemedia.ca/website-redesign-cost-small-business/" target="_blank" rel="noopener noreferrer">Fierce Media, Jul 2025</a></td></tr>
+      <tr><td>Clutch Average (79,260 agencies)</td><td class="money">$38,105 avg</td><td><a class="source-link" href="https://clutch.co/web-designers/pricing" target="_blank" rel="noopener noreferrer">Clutch.co, May 2026</a></td></tr>
+      <tr><td>GoodFirms Survey (100+ firms)</td><td class="money">$1,500 – $10,000+</td><td><a class="source-link" href="https://www.goodfirms.co/resources/website-construction-cost-survey" target="_blank" rel="noopener noreferrer">GoodFirms, 2025</a></td></tr>
+    </tbody>
+  </table>
+
+  <h4>Hourly Rates</h4>
+  <table class="data-table">
+    <thead><tr><th>Role</th><th>Rate</th><th>Source</th></tr></thead>
+    <tbody>
+      <tr><td>Freelance Web Developer</td><td class="money">$75 – $125/hr</td><td><a class="source-link" href="https://www.goodfirms.co/resources/website-construction-cost-survey" target="_blank" rel="noopener noreferrer">GoodFirms, 2025</a></td></tr>
+      <tr><td>Agency Developer / PM</td><td class="money">$100 – $149/hr</td><td><a class="source-link" href="https://clutch.co/web-designers/pricing" target="_blank" rel="noopener noreferrer">Clutch.co, 2026</a></td></tr>
+      <tr><td>AI/ML Integration Specialist</td><td class="money">$125 – $200/hr</td><td><a class="source-link" href="https://arc.dev/salaries" target="_blank" rel="noopener noreferrer">Arc.dev, 2025</a></td></tr>
+    </tbody>
+  </table>
+
+  <div class="callout">
+    <p><strong>Context:</strong> The B&R build includes an AI-powered quote tool (Gemini Vision integration), dynamic Cloudinary gallery, serverless API architecture, and full AEO infrastructure — features that place it firmly in the boutique-to-agency tier. At 50–70 estimated hours and a blended rate of $100–$150/hr, the comparable market value is <strong>$5,000 – $10,500</strong> at freelance rates and <strong>$8,000 – $32,000</strong> at agency rates.</p>
+  </div>
+
+  <h4>AI Feature Add-On Market Rates</h4>
+  <table class="data-table">
+    <thead><tr><th>Feature</th><th>Market Rate</th><th>Source</th></tr></thead>
+    <tbody>
+      <tr><td>AI Chatbot (SaaS)</td><td class="money">$29 – $399/mo</td><td><a class="source-link" href="https://aibotsimple.com/pricing/" target="_blank" rel="noopener noreferrer">AIbotSimple, 2025</a></td></tr>
+      <tr><td>AI Chatbot (Done-for-you)</td><td class="money">$195 – $2,500+/mo</td><td><a class="source-link" href="https://businessmateai.com/pricing/" target="_blank" rel="noopener noreferrer">BusinessMateAI, 2025</a></td></tr>
+      <tr><td>AI Voice Agent</td><td class="money">$29 – $499/mo + setup</td><td><a class="source-link" href="https://www.byvoice.io/pricing" target="_blank" rel="noopener noreferrer">byVoice, Feb 2026</a></td></tr>
+      <tr><td>Full AI Stack (voice + chat + CRM)</td><td class="money">$697/mo + $5,000 setup</td><td><a class="source-link" href="https://www.bums.ai/pricing" target="_blank" rel="noopener noreferrer">BUMS.ai, 2025</a></td></tr>
+    </tbody>
+  </table>
+</section>
+
+<hr class="section-divider">
+
+<!-- ============================================================ -->
+<!-- DOCUMENT 2: BUILD LOG -->
+<!-- ============================================================ -->
+<section class="doc-section" id="build-log">
+  <div class="section-label">Document 2 of 3</div>
+  <h2>Sprint &amp; Build Log</h2>
+  <div class="doc-date">Complete work timeline · May 4 – 16, 2026</div>
+
+  <p>Chronological record of every major milestone, commit, deploy, and decision across the B&R Exterior Services website project — from initial onboarding through Phase II proposal delivery.</p>
+
+  <div class="stat-grid">
+    <div class="stat-card">
+      <div class="stat-value">13</div>
+      <div class="stat-label">Days Active</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-value">20+</div>
+      <div class="stat-label">Commits Shipped</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-value">4</div>
+      <div class="stat-label">Major Sprints</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-value">7</div>
+      <div class="stat-label">Production Deploys</div>
+    </div>
+  </div>
+
+  <div class="timeline">
+
+    <div class="timeline-item shipped">
+      <div class="tl-date">May 4, 2026</div>
+      <div class="tl-title">Project Onboarding &amp; Account Audit</div>
+      <div class="tl-body">
+        <p>Deep research sweep across all GitHub accounts. Inventoried and triaged repos by recency and originality. Identified BNR as active client work, locked brand tokens (cobalt #152B4F, gold #B8943F, Playfair Display + Hanken Grotesk), and mapped existing site state.</p>
+        <ul>
+          <li>Client brief established: 6 service lines, Houston market, family-owned premium positioning</li>
+          <li>Design tokens locked: color palette, typography, component patterns</li>
+          <li>Gaps identified: no owner names, founding year, or crew size on record</li>
+        </ul>
+        <span class="tl-tag milestone">Milestone</span>
+      </div>
+    </div>
+
+    <div class="timeline-item shipped">
+      <div class="tl-date">May 5, 2026 — Morning</div>
+      <div class="tl-title">Source-of-Truth Reconciliation</div>
+      <div class="tl-body">
+        <p>Discovered the root cause of deployment drift: two repos (jGPT-Automated and agenticjess-star forks) pointed at different Vercel projects. Commits were landing in one repo while Vercel deployed from the other.</p>
+        <ul>
+          <li>Canonical pair locked: jGPT-Automated/bnr-power-washing → new Vercel project on jgpts-projects team</li>
+          <li>Old fork and Vercel project deprecated</li>
+          <li>SHA parity verified across GitHub and Vercel</li>
+        </ul>
+        <span class="tl-tag decision">Decision</span>
+      </div>
+    </div>
+
+    <div class="timeline-item shipped">
+      <div class="tl-date">May 5, 2026 — Afternoon</div>
+      <div class="tl-title">V1 Site Live + AI Quote Tool + Gallery</div>
+      <div class="tl-body">
+        <p>First production deployment with full feature set. 7 commits in rapid succession to ship gallery, AI quote tool, and Vercel Blob persistence.</p>
+        <ul>
+          <li><strong>AI Instant Quote:</strong> Photo upload → Gemini Vision → surface/sqft/stain analysis → price range in ~10 seconds</li>
+          <li><strong>Gallery:</strong> 56 Cloudinary-sourced photos with masonry layout and category filters</li>
+          <li><strong>Blob Persistence:</strong> User uploads saved to Vercel Blob with 24hr cleanup cron</li>
+          <li>Resolved: gallery 500 error (vercel.json includeFiles fix), function payload limit (client-side photo downscaling), Gemini token truncation (maxOutputTokens 400→1500)</li>
+        </ul>
+        <span class="tl-tag shipped">Shipped</span>
+      </div>
+    </div>
+
+    <div class="timeline-item shipped">
+      <div class="tl-date">May 5, 2026 — Evening</div>
+      <div class="tl-title">Site Walkthrough &amp; Investment Handoff</div>
+      <div class="tl-body">
+        <p>Full walkthrough email documenting everything live: brand foundation, AI quote tool (residential + commercial modes), 6 service trust blocks, dynamic gallery, performance targets. Included investment comparison table against 6 industry competitors.</p>
+        <ul>
+          <li>Competitor benchmarks: Pressure Wash HQ ($1,899), Oak Harbor ($175/mo×12), Cannone ($199+$49/mo), custom freelancer ($2,500–$8,000)</li>
+          <li>V2 roadmap drafted: subscription pricing model, CRM, AI Agent Employee, D2D optimization, referral campaigns</li>
+        </ul>
+        <span class="tl-tag milestone">Milestone</span>
+      </div>
+    </div>
+
+    <div class="timeline-item shipped">
+      <div class="tl-date">May 6, 2026 — Early</div>
+      <div class="tl-title">Sprint v3: 6 Service Pages + CRM Blueprint</div>
+      <div class="tl-body">
+        <p>Shipped 6 dedicated service pages with original before/after comparison sliders, expanding SEO surface area by approximately 6×.</p>
+        <ul>
+          <li><strong>Pages:</strong> House washing, driveway/concrete, roof cleaning, window cleaning, patio/deck/fence, commercial</li>
+          <li><strong>Per page:</strong> 800–1,200 words, draggable before/after slider, JSON-LD Service+FAQPage schema, Houston pricing tiers, 5–7 FAQs</li>
+          <li><strong>Slider component:</strong> Custom vanilla JS, touch/mouse/keyboard accessible, cobalt drag-bar + gold handle, ~60 lines, zero dependencies</li>
+          <li><strong>Image pipeline:</strong> 12 photos via Gemini Pro Image (1600×900), compressed to 3.5 MB total</li>
+          <li>CRM blueprint proposed: Supabase leads table → admin kanban → SMS/Slack/Telegram outreach → 4-stage nurture automation</li>
+        </ul>
+        <span class="tl-tag shipped">Shipped</span>
+      </div>
+    </div>
+
+    <div class="timeline-item shipped">
+      <div class="tl-date">May 6, 2026 — Late</div>
+      <div class="tl-title">Brian's Feedback Applied</div>
+      <div class="tl-body">
+        <p>Owner feedback incorporated across the entire site. Reordered CTA hierarchy, added traditional quote form, repositioned AI tool, expanded Houston coverage, replaced SVG illustrations with real photos.</p>
+        <ul>
+          <li><strong>CTA reorder:</strong> Call (832) 401-0741 → Request a Quote form → AI Quote (demoted to "for impatient folks")</li>
+          <li><strong>New Request-a-Quote section:</strong> Full form (name, phone, email, address, service, notes) via formsubmit.co</li>
+          <li><strong>Coverage expanded:</strong> 20 → 30 Houston neighborhoods (added Conroe, Crosby, Cleveland, Galveston, Humble, and more)</li>
+          <li><strong>Gallery rebuilt:</strong> All 56 Cloudinary URLs hardcoded for zero-dependency reliability, masonry + blur-fade scroll animation</li>
+          <li><strong>Mobile menu fixed:</strong> Serif → sans-serif, tighter padding, proper centering</li>
+        </ul>
+        <span class="tl-tag shipped">Shipped</span>
+      </div>
+    </div>
+
+    <div class="timeline-item shipped">
+      <div class="tl-date">May 13, 2026</div>
+      <div class="tl-title">Phase II Proposal Delivered</div>
+      <div class="tl-body">
+        <p>SEO + AEO growth retainer proposal completed and delivered. Includes independent SEO audit (baseline score: 32/100), AI search visibility assessment, competitive benchmarking, and phased growth plan.</p>
+        <ul>
+          <li>4-phase plan: Launch Audit → Foundation Build-Out → Content & Authority → Measure/Compound/Iterate</li>
+          <li>AI Employee concept introduced: handles books, outbound, reactivation, and site maintenance</li>
+          <li>Break-even analysis: ~22 additional jobs/year covers the retainer</li>
+        </ul>
+        <span class="tl-tag milestone">Milestone</span>
+      </div>
+    </div>
+
+    <div class="timeline-item shipped">
+      <div class="tl-date">May 15, 2026</div>
+      <div class="tl-title">Client Presentation Deck Finalized</div>
+      <div class="tl-body">
+        <p>Full narrative presentation built: Before → Now → What's Next format. Covers the original state (Elementor template), current state (custom build with AI features), and the growth opportunity (SEO/AEO retainer with AI operator).</p>
+        <ul>
+          <li>Accessibility fixes applied + SEO audit slide added</li>
+          <li>Presentation reviewed internally before client delivery</li>
+        </ul>
+        <span class="tl-tag shipped">Shipped</span>
+      </div>
+    </div>
+
+    <div class="timeline-item shipped">
+      <div class="tl-date">May 16, 2026</div>
+      <div class="tl-title">Project Hub Launched</div>
+      <div class="tl-body">
+        <p>Client-facing project portal assembled at GenJess/BNR_Project_Hub — a single destination with every deliverable organized, linked, and styled. Deployed to Vercel for instant access.</p>
+        <ul>
+          <li>5 deliverable cards: Presentation, Pricing Guide, SEO Report, Territory Map, this documentation</li>
+          <li>Full website source dump included for reference</li>
+        </ul>
+        <span class="tl-tag milestone">Milestone</span>
+      </div>
+    </div>
+
+  </div>
+
+  <h3>Key Technical Decisions</h3>
+  <table class="data-table">
+    <thead><tr><th>Decision</th><th>Rationale</th><th>Date</th></tr></thead>
+    <tbody>
+      <tr><td><strong>Static HTML/CSS/JS (no framework)</strong></td><td>Zero build step, instant deploys, maximum performance. No React/Next.js overhead for a brochure + AI tool site.</td><td>May 4</td></tr>
+      <tr><td><strong>Cloudinary for gallery</strong></td><td>Zero-code future image updates — tag images in Cloudinary, they appear on site automatically. Cloud name: dc5ui9p2a.</td><td>May 5</td></tr>
+      <tr><td><strong>Gemini Vision for AI Quote</strong></td><td>Best price/performance for image analysis (~$0.04/call). Identifies surface type, estimates square footage, detects stain level, recommends soft-wash vs. pressure-wash.</td><td>May 5</td></tr>
+      <tr><td><strong>Consolidated to single canonical repo</strong></td><td>Two-repo drift was causing silent deployment failures. Locked jGPT-Automated/bnr-power-washing as single source of truth.</td><td>May 5</td></tr>
+      <tr><td><strong>Hardcoded gallery over dynamic API</strong></td><td>After Brian's feedback, reliability > flexibility. All 56 URLs baked into HTML eliminates API failure modes entirely.</td><td>May 6</td></tr>
+      <tr><td><strong>AEO-first infrastructure</strong></td><td>llms.txt + AI-crawler robots.txt + JSON-LD schema makes the site readable by ChatGPT/Claude/Perplexity/Gemini — a competitive moat most power washing sites don't have.</td><td>May 5</td></tr>
+    </tbody>
+  </table>
+</section>
+
+<hr class="section-divider">
+
+<!-- ============================================================ -->
+<!-- DOCUMENT 3: PHASE II PROPOSAL -->
+<!-- ============================================================ -->
+<section class="doc-section" id="phase-ii">
+  <div class="section-label">Document 3 of 3</div>
+  <h2>Phase II — Getting Found</h2>
+  <div class="doc-date">SEO + AI Search Growth Proposal · May 2026</div>
+
+  <div class="exec-card">
+    <h3>The Situation</h3>
+    <p>B&R now has the best-designed power washing website in the Houston market — custom-built, AI-powered, mobile-optimized, and conversion-focused. But a great site that nobody finds is a parked Ferrari.</p>
+    <p style="margin-top:12px"><strong>Current SEO baseline: 32 out of 100.</strong> The site is structurally invisible to both Google and AI search engines. The next step is getting it in front of people — and now, AI agents too.</p>
+  </div>
+
+  <h3>The Shift: AI Search Is Here</h3>
+  <p>A growing share of "best power washing near me" queries now happen through AI assistants — ChatGPT, Perplexity, Claude, Gemini. These tools don't just list links. They <em>recommend</em> specific businesses by name.</p>
+
+  <div class="callout">
+    <p><strong>Right now, when someone asks ChatGPT for the best power washing company in Houston, B&R's website is structurally invisible to it</strong> — dynamic-loading, no schema markup, no AI-crawler allowlist, no llms.txt. The window to be the first recommended result is open. It won't stay open.</p>
+  </div>
+
+  <p>The B&R site already has the foundation pieces installed (JSON-LD schema, llms.txt, AI-crawler robots.txt). What's missing is the ongoing content, authority, and optimization program that turns those foundations into actual rankings — on both Google and AI platforms.</p>
+
+  <h3>What a Growth Retainer Covers</h3>
+
+  <h4>Foundation Layer (SEO Baseline)</h4>
+  <ul>
+    <li>Google Business Profile optimization and ongoing management</li>
+    <li>Citation cleanup across 40+ local directories (Yelp, Angi, HomeAdvisor, BBB, etc.)</li>
+    <li>On-page SEO: keyword targeting, meta optimization, internal linking</li>
+    <li>Schema markup maintenance and expansion (LocalBusiness, Service, FAQ, Review)</li>
+    <li>Review generation automation — post-job satisfaction survey → Google review prompt</li>
+    <li>Site maintenance: text or email what you need changed, we handle it. No WordPress login, no plugins, no IT headaches.</li>
+  </ul>
+
+  <h4>AEO Layer (AI Search Visibility)</h4>
+  <ul>
+    <li><strong>llms.txt maintenance:</strong> Kept current as services, coverage, and pricing evolve — this is the file AI agents read to understand the business</li>
+    <li><strong>AI-crawler allowlist:</strong> GPTBot, ClaudeBot, PerplexityBot, Googlebot, and 8 other AI crawlers explicitly permitted via robots.txt</li>
+    <li><strong>Comparison content:</strong> "B&R vs. [competitor]" and "best power washing in [neighborhood]" pages that AI agents use to construct recommendations</li>
+    <li><strong>Quarterly AI-visibility audit:</strong> Test what ChatGPT, Perplexity, Claude, and Gemini recommend when asked "best power washing in Houston" — track B&R's position over time</li>
+    <li><strong>JSON-LD expansion:</strong> Add HowTo, Product, and Offer schema as Google and AI platforms evolve their structured data support</li>
+  </ul>
+
+  <h4>Growth Layer (Content & Authority)</h4>
+  <ul>
+    <li>Neighborhood landing pages — Memorial, Bellaire, Piney Point, West U, Tanglewood, Heights, and more — each targeting "[service] in [neighborhood]" searches</li>
+    <li>Monthly content: blog posts, case studies, seasonal guides (spring algae season, hurricane prep, etc.)</li>
+    <li>Local link-building: Houston business directory submissions, chamber partnerships, neighborhood association features</li>
+    <li>Press and PR campaigns for Houston market visibility</li>
+  </ul>
+
+  <h4>AI Employee (Operational Automation)</h4>
+  <ul>
+    <li>Runs the books — invoice generation, P&L tracking, overdue payment chases</li>
+    <li>Runs outbound — commercial property managers, HOA contacts, restaurant chains</li>
+    <li>Reactivates past customers — 6-month and 12-month auto-nudges for repeat bookings</li>
+    <li>Handles site updates — owner texts or emails a change, the AI ships it same-day</li>
+  </ul>
+
+  <h3>What These Services Cost on the Open Market</h3>
+  <p>Independent pricing data from published sources, verified May 2026:</p>
+
+  <h4>SEO Retainers (Local / Small Business)</h4>
+  <table class="data-table">
+    <thead><tr><th>Tier</th><th>Monthly Rate</th><th>Source</th></tr></thead>
+    <tbody>
+      <tr><td>Basic Local SEO (low competition)</td><td class="money">$300 – $1,500/mo</td><td><a class="source-link" href="https://www.webfx.com/local-seo/pricing/" target="_blank" rel="noopener noreferrer">WebFX, Feb 2026</a></td></tr>
+      <tr><td>Standard Local SEO (competitive market)</td><td class="money">$800 – $3,000/mo</td><td><a class="source-link" href="https://seoconsultingexperts.com/how-much-does-seo-cost-for-a-small-business-in-2025/" target="_blank" rel="noopener noreferrer">SEO Consulting Experts, 2025</a></td></tr>
+      <tr><td>Comprehensive Growth SEO</td><td class="money">$1,500 – $5,000/mo</td><td><a class="source-link" href="https://conversioncrush.com/blog/how-much-does-seo-cost-small-business" target="_blank" rel="noopener noreferrer">ConversionCrush, Apr 2026</a></td></tr>
+      <tr class="highlight-row"><td><strong>Industry Average (US SMB)</strong></td><td class="money"><strong>$1,557/mo</strong></td><td><a class="source-link" href="https://wildmangomarketing.com/seo-pricing-small-business-cost/" target="_blank" rel="noopener noreferrer">Wild Mango Marketing, 2025</a></td></tr>
+    </tbody>
+  </table>
+
+  <h4>AEO / GEO Services (AI Engine Optimization)</h4>
+  <table class="data-table">
+    <thead><tr><th>Tier</th><th>Monthly Rate</th><th>Source</th></tr></thead>
+    <tbody>
+      <tr><td>Entry-Level AEO Retainer</td><td class="money">$797 – $3,000/mo</td><td><a class="source-link" href="https://aeoengine.ai/pricing" target="_blank" rel="noopener noreferrer">AEO Engine, 2025</a></td></tr>
+      <tr><td>Mid-Tier GEO Growth</td><td class="money">$2,000 – $7,000/mo</td><td><a class="source-link" href="https://www.brainz.digital/blog/generative-engine-optimization-pricing/" target="_blank" rel="noopener noreferrer">Brainz Digital, Sep 2025</a></td></tr>
+      <tr><td>Full-Scale AEO/GEO</td><td class="money">$5,500 – $20,000+/mo</td><td><a class="source-link" href="https://gigawattgroup.com/insights/geo-aeo-pricing-models-what-agencies-charge-in-2026/" target="_blank" rel="noopener noreferrer">Gigawatt Group, Apr 2026</a></td></tr>
+      <tr><td>One-Time AEO Audit/Setup</td><td class="money">$400 – $15,000</td><td><a class="source-link" href="https://georankai.com/pricing-plan/" target="_blank" rel="noopener noreferrer">GeoRankAI, Jul 2025</a></td></tr>
+    </tbody>
+  </table>
+
+  <h4>Website Maintenance</h4>
+  <table class="data-table">
+    <thead><tr><th>Tier</th><th>Monthly Rate</th><th>Source</th></tr></thead>
+    <tbody>
+      <tr><td>Basic (brochure site)</td><td class="money">$35 – $300/mo</td><td><a class="source-link" href="https://www.webfx.com/web-development/pricing/website-maintenance/" target="_blank" rel="noopener noreferrer">WebFX, Dec 2025</a></td></tr>
+      <tr><td>Standard SMB (lead-gen site)</td><td class="money">$295 – $750/mo</td><td><a class="source-link" href="https://theclaymedia.com/website-maintenance-cost-small-business/" target="_blank" rel="noopener noreferrer">The Clay Media, Nov 2025</a></td></tr>
+      <tr><td>Advanced / eComm</td><td class="money">$500 – $5,000+/mo</td><td><a class="source-link" href="https://vvrapid.com/small-business-website-maintenance-packages/" target="_blank" rel="noopener noreferrer">VVRapid, Dec 2025</a></td></tr>
+    </tbody>
+  </table>
+
+  <div class="callout navy">
+    <p><strong>In context:</strong> A combined SEO + AEO + maintenance retainer from an agency typically runs <strong>$2,000 – $8,000+/mo</strong> based on the sources above. The industry average for SEO alone is $1,557/mo (Wild Mango, 2025). AEO services — still a new category — start at $797/mo and scale rapidly. Site maintenance adds another $295–$750/mo at standard SMB rates.</p>
+  </div>
+
+  <h3>The ROI Math</h3>
+  <table class="data-table">
+    <thead><tr><th>Metric</th><th>Value</th></tr></thead>
+    <tbody>
+      <tr><td>Average residential job value</td><td class="money">$400 – $800</td></tr>
+      <tr><td>Current SEO score</td><td class="money">32 / 100</td></tr>
+      <tr><td>Target SEO score (6-month horizon)</td><td class="money">70+</td></tr>
+      <tr><td>Conservative Year-1 upside (case-study basis)</td><td class="money">+$18,000 – $36,000 net</td></tr>
+    </tbody>
+  </table>
+
+  <div class="callout teal">
+    <p><strong>Case studies from the industry:</strong> One power washing operator went from 1 lead/month to 5+ after SEO investment. Another scaled from solo to a 4-truck crew. A Bay Area shop booked $43K in 26 days after their SEO push. These results compound — every month the authority builds, the cost per lead drops.</p>
+  </div>
+
+  <h3>Phased Plan</h3>
+  <p>Gated by completion, not calendar dates — each phase unlocks the next.</p>
+
+  <table class="data-table">
+    <thead><tr><th>Phase</th><th>Scope</th><th>Gate to Next</th></tr></thead>
+    <tbody>
+      <tr><td><strong>1. Launch Audit</strong></td><td>Full SEO/AEO baseline audit, GBP optimization, citation cleanup, schema validation</td><td>Audit report delivered + quick wins shipped</td></tr>
+      <tr><td><strong>2. Foundation Build-Out</strong></td><td>On-page SEO, review automation, AI-crawler infrastructure verified, maintenance workflow live</td><td>SEO score moves above 50</td></tr>
+      <tr><td><strong>3. Content & Authority</strong></td><td>Neighborhood landing pages, comparison content, local link-building, press campaigns</td><td>Organic traffic growth visible in analytics</td></tr>
+      <tr><td><strong>4. Measure / Compound / Iterate</strong></td><td>Quarterly AI-visibility audits, A/B content testing, expansion to new neighborhoods and commercial verticals</td><td>Ongoing — results compound monthly</td></tr>
+    </tbody>
+  </table>
+
+  <div class="exec-card" style="margin-top:40px">
+    <h3>The Bottom Line</h3>
+    <p>B&R has the best power washing website in the Houston market. The site itself is the asset. What turns that asset into revenue is distribution — being found on Google, being recommended by ChatGPT, being the first name that comes up when someone in River Oaks or Memorial needs their driveway cleaned.</p>
+    <p style="margin-top:12px">The infrastructure is built. The window to own this space — before competitors catch up — is open now.</p>
+  </div>
+
+</section>
+
+</main>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-inner">
+    <div class="footer-brand">B&R Exterior Services · Conroe, TX · Built by GenJess</div>
+    <div class="footer-meta">Project Documentation · May 2026</div>
+  </div>
+</footer>
+
+<!-- Sticky doc-nav highlight on scroll -->
+<script>
+(function(){
+  const sections = document.querySelectorAll('.doc-section');
+  const navLinks = document.querySelectorAll('.doc-nav a');
+  const observer = new IntersectionObserver(entries => {
+    entries.forEach(entry => {
+      if(entry.isIntersecting){
+        navLinks.forEach(l => l.classList.remove('active'));
+        const id = entry.target.id;
+        const active = document.querySelector(`.doc-nav a[href="#${id}"]`);
+        if(active) active.classList.add('active');
+      }
+    });
+  }, {rootMargin:'-80px 0px -60% 0px'});
+  sections.forEach(s => observer.observe(s));
+})();
+</script>
+</body>
+</html>
